@@ -64,20 +64,29 @@ async function submitJoke() {
   }
 }
 
-document.getElementById('sortMode').addEventListener('change', loadJokes);
+document.getElementById('sortMode').addEventListener('change', checkJokes);
 
-function loadJokes() {
+function checkJokes() {
   const mode = document.getElementById('sortMode').value;
 
   let q;
   if (mode === 'top') {
     q = query(collection(db, "jokes"), orderBy("upvotes", "desc"), orderBy("downvotes", "asc"));
-  } else {
+    loadJokes(q);
+  } else if (mode === 'latest') {
     q = query(collection(db, "jokes"), orderBy("timestamp", "desc"));
+    loadJokes(q);
+  } else {
+    document.getElementById('jokeFeed').style.display = 'none';
   }
+}
 
+function loadJokes(q) {
+  document.getElementById('jokeFeed').style.display = 'block';
   onSnapshot(q, (snapshot) => {
+    const jokeFeed = document.getElementById('jokeFeed');
     jokeFeed.innerHTML = '';
+
     snapshot.forEach(docSnap => {
       const data = docSnap.data();
       const jokeId = docSnap.id;
@@ -86,8 +95,8 @@ function loadJokes() {
       card.className = 'joke-card';
       card.innerHTML = `
         <div class="joke-text">
-        <p>@${data.name}</p>
-        ${data.text}
+          <p>@${data.name}</p>
+          ${data.text}
         </div>
         <div class="vote-buttons">
           <button onclick="vote('${jokeId}', 'up', this)">😂 LOL (${data.upvotes})</button>
@@ -99,8 +108,7 @@ function loadJokes() {
   });
 }
 
-loadJokes(); // Initial load
-
+checkJokes();
 
 async function loadLeaderboard() {
   const leaderboardList = document.querySelector('.leaderboard ol');
