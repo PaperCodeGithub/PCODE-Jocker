@@ -39,9 +39,10 @@ header {
 }
 
 textarea {
-    width: 95%;
+    width: 90%;
+    margin-right: 10px;
     padding: 0.75rem;
-    border-radius: 6px;
+    border-radius: 10px;
     border: none;
     resize: none;
     font-size: 1rem;
@@ -90,6 +91,7 @@ button {
 .joke-card {
     background: #1a1a1a;
     padding: 1rem;
+    margin: 10px 0px;
     border-radius: 10px;
     position: relative;
 }
