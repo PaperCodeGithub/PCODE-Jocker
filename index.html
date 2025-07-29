@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Jocker – Funniest Wins</title>
+    <link rel="icon" href="assets/jocker.png" type="image/x-icon">
     <link rel="stylesheet" href="style/index.css" />
     <script src="scripts/index.js" type="module" defer></script>
 </head>
@@ -17,6 +18,12 @@
             <textarea id="jokeInput" rows="4" placeholder="Write your funniest joke here..."></textarea>
             <button id="submit-btn">Submit Joke</button>
         </section>
+
+        <select id="sortMode">
+            <option value="latest">Latest</option>
+            <option value="top">Top Voted</option>
+        </select>
+
 
         <section class="joke-feed" id="jokeFeed">
             <!-- Example Joke Card -->

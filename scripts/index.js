@@ -64,32 +64,42 @@ async function submitJoke() {
   }
 }
 
-// Real-time listener
-const jokeFeed = document.getElementById('jokeFeed');
+document.getElementById('sortMode').addEventListener('change', loadJokes);
 
-const q = query(collection(db, "jokes"), orderBy("upvotes", "desc"), orderBy("downvotes", "asc"));
+function loadJokes() {
+  const mode = document.getElementById('sortMode').value;
 
-onSnapshot(q, (snapshot) => {
-  jokeFeed.innerHTML = '';
-  snapshot.forEach(docSnap => {
-    const data = docSnap.data();
-    const jokeId = docSnap.id;
+  let q;
+  if (mode === 'top') {
+    q = query(collection(db, "jokes"), orderBy("upvotes", "desc"), orderBy("downvotes", "asc"));
+  } else {
+    q = query(collection(db, "jokes"), orderBy("timestamp", "desc"));
+  }
 
-    const card = document.createElement('div');
-    card.className = 'joke-card';
-    card.innerHTML = `
-      <div class="joke-text">
-      <p>@${data.name}</p>
-      ${data.text}
-      </div>
-      <div class="vote-buttons">
-        <button onclick="vote('${jokeId}', 'up', this)">😂 LOL (${data.upvotes})</button>
-        <button onclick="vote('${jokeId}', 'down', this)">😐 Meh (${data.downvotes})</button>
-      </div>
-    `;
-    jokeFeed.appendChild(card);
+  onSnapshot(q, (snapshot) => {
+    jokeFeed.innerHTML = '';
+    snapshot.forEach(docSnap => {
+      const data = docSnap.data();
+      const jokeId = docSnap.id;
+
+      const card = document.createElement('div');
+      card.className = 'joke-card';
+      card.innerHTML = `
+        <div class="joke-text">
+        <p>@${data.name}</p>
+        ${data.text}
+        </div>
+        <div class="vote-buttons">
+          <button onclick="vote('${jokeId}', 'up', this)">😂 LOL (${data.upvotes})</button>
+          <button onclick="vote('${jokeId}', 'down', this)">😐 Meh (${data.downvotes})</button>
+        </div>
+      `;
+      jokeFeed.appendChild(card);
+    });
   });
-});
+}
+
+loadJokes(); // Initial load
 
 
 async function loadLeaderboard() {
@@ -108,6 +118,9 @@ async function loadLeaderboard() {
 }
 
 loadLeaderboard();
+
+
+
 
 const voted = new Set(); 
 
