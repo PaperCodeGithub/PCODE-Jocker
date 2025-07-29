@@ -130,11 +130,27 @@ loadLeaderboard();
 
 
 
-const voted = new Set(); 
+function getVotedJokes() {
+  const stored = localStorage.getItem('votedJokes');
+  return stored ? JSON.parse(stored) : [];
+}
+
+function saveVotedJoke(id) {
+  const voted = getVotedJokes();
+  if (!voted.includes(id)) {
+    voted.push(id);
+    localStorage.setItem('votedJokes', JSON.stringify(voted));
+  }
+}
 
 window.vote = async function (id, type, btn) {
-  if (voted.has(id)) return alert("You already voted!");
-  voted.add(id);
+  const voted = getVotedJokes();
+  if (voted.includes(id)) {
+    alert("You already voted!");
+    return;
+  }
+
+  saveVotedJoke(id);
 
   const jokeRef = doc(db, "jokes", id);
   await updateDoc(jokeRef, {
