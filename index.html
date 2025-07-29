@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Jocker – Funniest Wins</title>
+    <link rel="stylesheet" href="style/index.css" />
+    <script src="scripts/index.js" type="module" defer></script>
+</head>
+<body>
+    <header>Jocker – Funniest Wins</header>
+    
+    <div class="container">
+        <section class="submit-section">
+            <h2>Post Your Joke</h2>
+            <input id="name" placeholder="Name"/>
+            <textarea id="jokeInput" rows="4" placeholder="Write your funniest joke here..."></textarea>
+            <button id="submit-btn">Submit Joke</button>
+        </section>
+
+        <section class="joke-feed" id="jokeFeed">
+            <!-- Example Joke Card -->
+            <div class="joke-card">
+                <div class="joke-text">
+                    <p>John Doe</p>
+                    Why don't scientists trust atoms? Because they make up everything.
+                </div>
+                <div class="vote-buttons">
+                    <button onclick="vote(this, 'up')">😂 LOL</button>
+                    <button onclick="vote(this, 'down')">😐 Meh</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="leaderboard">
+            <h3>Top Jockers</h3>
+            <ol>
+                <li>@punnyGuy – 121 votes</li>
+            </ol>
+        </section>
+        <p style="font-size: 12px; color: gray; text-align: center; margin-top: 20px;">
+            Disclaimer: All jokes submitted on this platform are user-generated and reflect the views of their respective authors. The website owner is not responsible for any offensive, inappropriate, or unlawful content posted by users. By using this site, you acknowledge that all content is provided "as-is" and that the platform is not liable for user-submitted material.
+        </p>
+
+    </div>
+</body>
+</html>
